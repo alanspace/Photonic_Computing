@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "photonic_ising"
+version = "0.1.0"
+authors = [
+  { name="Author", email="author@example.com" },
+]
+description = "A Python package for simulating Large-Scale Photonic Ising Machines by Spatial Light Modulation"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+dependencies = [
+    "numpy",
+    "matplotlib"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/alanspace/Photonic_Computing"
