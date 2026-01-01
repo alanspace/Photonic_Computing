@@ -1,0 +1,148 @@
+\section{Terminology}
+
+\textbf{Active Area} \\
+The rectangular aperture that defines the region of the SLM that is used to interact with the light.\\
+
+\textbf{All-to-All Interactions} \\
+Every spin interacts with every other spin, regardless of their distance. This is equivalent to having a coupling matrix $J$ where all elements $J_{jh}$ are constant.
+
+\textbf{Amplitude Modulation} \\
+The amplitude of the light wave is controlled or varied, which is crucial for encoding information or manipulating the spin states.\\
+
+\textbf{Beam Expansion} \\
+The laser beam is expanded to increase its size and intensity before it reaches the SLM. \\
+
+\textbf{Computational units} \\
+Each pair of pulses can represent a computational unit or "spin" in an Ising model. The phase or amplitude of these pulses can be manipulated to represent the state of the spin (+1 or -1). \\
+
+\textbf{Continuous Wave Laser} \\
+The laser emits light continuously, as opposed to pulsed lasers.\\
+
+\textbf{Correlation Length}
+This is a measure of the spatial extent over which spins are correlated. A larger correlation length indicates that spins are more likely to be aligned with each other over longer distances. \\
+
+\textbf{Ferromagnetic Domain}\\
+Ferromagnetic domains are regions within a material where the magnetic moments of the atoms are aligned in the same direction. In the context of the photonic Ising machine, these domains correspond to regions where the spins are aligned in the same direction. \\
+
+\textbf{Fidelity} \\
+This is a measure of how accurately the machine finds the ground state (the lowest-energy configuration) of the Ising model. A high fidelity indicates that the machine is able to consistently find the correct solution. \\
+
+\textbf{Frequency Doamin} \\ 
+The effect of this rectangular function (finite pixel size) in the spatial domain is represented by a sinc function in the frequency domain, which is what $\tilde{\delta}_W (k - k_j)$ models. \\
+ 
+\textbf{High speed} \\
+Light travels at high speed, enabling fast computations.\\
+
+\textbf{Ising model} \\
+It is a simplified model of magnetism where particles (spins) can be in one of two states (+1 or -1). Interactions between these spins determine the overall energy of the system. Finding the configuration with the lowest energy (the ground state) is a fundamental problem in statistical physics. Interestingly, many complex optimization problems can be mapped onto the Ising model. By representing problem variables as spins and defining appropriate interactions, finding the optimal solution becomes equivalent to finding the ground state of the Ising model. This approach has gained significant attention due to its potential to leverage insights from physics for computational challenges.\\
+
+\textbf{Large-Scale Implementation}\\
+The research likely focuses on scaling up the photonic Ising machine to handle larger problems, potentially involving a large number of spins or interacting elements. \\
+
+\textbf{Magnetization}\\
+In a system of spins, magnetization is a measure of the net alignment of the spins. It is calculated as the average spin value over all spins. \\
+
+\textbf{Mattis Models}\\
+These are a class of spin-glass models where the pairwise interaction can be expressed as the product of two independent variables. In other words, the coupling between spins $j$ and $h$ can be written as $J_{jh} = A_j * B_h$
+
+\textbf{Nanophotonic circuits} \\
+These integrate optical components on a chip to directly implement small-scale spin systems.\\
+
+\textbf{Opposite Magnetization Phase} \\
+This is a region where the spins are aligned in the opposite direction compared to the ferromagnetic domains. \\
+
+\textbf{Optical computing} \\
+The field of using light for computational tasks. \\
+
+\textbf{Optical parametric oscillators (OPOs)} \\
+Devices that generate multiple optical frequencies from a single input laser. It is a nonlinear optical device that converts an input laser beam into two output beams with lower frequencies (idler and signal).
+\\
+
+\textbf{Optimization} \\
+Such machines are designed to find ground states of Ising models, which correspond to the optimal solutions of certain types of optimization problems. \\
+
+\textbf{Parallelism}\\
+Optical systems can process multiple pieces of information simultaneously.\\
+
+\textbf{Phase Modulation}\\
+The SLM is configured to primarily modulate the phase of the light wave, rather than its amplitude.\\
+
+\textbf{Phase Transitions} \\
+The behavior of the system can be different under the influence of an external field, including changes in the location of phase transitions. \\
+
+\textbf{Photonic platforms}\\
+Systems that use light to perform computations. \\
+
+\textbf{Photonic Ising Machine} \\
+It is a type of computing device that leverages the principles of the Ising model for solving optimization problems. The Ising model is used to simulate interactions in systems with binary states, and it's particularly well-suited for addressing combinatorial optimization problems. While these systems offer the potential for high-speed computation due to the speed of light, several challenges persist:
+
+\begin{itemize}
+\item Controlling a large number of spins: Creating and manipulating a vast number of optical elements to represent spins is technically demanding.
+\item Precise interaction engineering: Designing optical systems to accurately mimic the desired spin interactions is complex.
+\item Measuring the ground state: Accurately determining the system's lowest energy state from optical measurements can be challenging.
+\end{itemize}
+
+\textbf{Pixel}
+$N \times M$ pixels indicates the resolution or number of individual pixels on the SLM.\\
+
+\textbf{Pixel Pitch} \\
+ $N \times N \mu$m is the size of each pixel on the SLM.\\
+
+\textbf{Pixel Spacing} \\ 
+The distance between the centers of adjacent pixels is 2W. \\
+
+\textbf{Point-Like Target} \\
+This refers to a target image where the light intensity is concentrated at a single point. \\
+
+\textbf{Programmable Amplitude Mask}\\
+This is a device that can control the amplitude of the light wave at different points. \\
+
+\textbf{Residual Intensity Modulation} \\
+Despite efforts to minimize it, there might be some residual variation in the light intensity due to imperfect phase modulation.\\
+
+\textbf{Random Initialization}\\
+The SLM phases are initially set to random values, creating a speckle pattern in the far-field.
+
+\textbf{Random Phase Fluctuation} \\
+Random phase fluctuations arise due to various sources of noise in the experimental setup, such as quantization noise from the CCD detector and imperfections in the spatial phase modulation. \\
+
+\textbf{Scalability} \\
+Some photonic platforms, like spatial light modulation, can potentially handle large datasets.\\
+
+\textbf{Spatial Filtering}\\
+The light is filtered to remove any unwanted components or noise.\\
+
+\Spatial Domain \\
+The physical size of the pixel is described by a rectangular function. \\
+
+\textbf{Spatial Frequency} \\
+Spatial frequency represents the number of cycles of a spatial pattern per unit length. \\
+
+\textbf{Spatial Light Modulation} \\ 
+This refers to the use of devices like Spatial Light Modulators (SLMs) to control the amplitude, phase, or polarization of light beams in space. In the context of an Ising machine, SLMs is used to imprint the desired phase pattern onto the light wave, effectively controlling the spin configuration. SLM is another approach for optical computing, where the shape of light fields can represent data and perform computations. However, its application to Ising spin dynamics has been relatively unexplored prior to the discussed work.\\
+
+\textbf{Spatial Mode} \\
+A spatial mode is a specific pattern or distribution of light intensity within a beam. It describes how the light is distributed across the transverse (cross-sectional) plane of the beam. It defines the variation of light intensity across the beam's profile. The mode can have various shapes, such as Gaussian (bell-shaped), Hermite-Gaussian (multiple peaks and valleys), or Laguerre-Gaussian (donut-shaped). Different spatial modes are often orthogonal, meaning they do not interfere with each other. Spatial mode describe the quality of a laser beam, such as its divergence and ability to focused. Understanding it is crucial for designing and analyzing optical systems. In the context of SLM, the interaction between the spins and their spin states can be known by measuring the intensity distribution of the light in different spatial mode.\\
+
+\textbf{Spatial Profile} \\
+This refers to the distribution of light intensity within the target image. \\
+
+\textbf{Speckle Noise}\\
+This refers to random fluctuations in the intensity of the light due to spatial phase variations. Averaging over multiple pixels helps to reduce the effects of speckle noise.\\
+
+\textbf{Spontaneous Magnetization} \\
+Even without an external magnetic field, a system can exhibit spontaneous magnetization, especially at low temperatures. This is due to the interactions between the spins, which can cause them to align cooperatively. \\
+
+\textbf{Spontaneous Symmetry Breaking}\\
+It occurs when a system with a symmetric Hamiltonian (the Ising Hamiltonian) evolves into a state that lacks the original symmetry due to thermal fluctuation or other factors. This means that the spins will no longer be randomly oriented but will align in a particular direction. For example, in the absence of an external magnetic field, the Ising Hamiltonian is symmetric under the transformation of all spins flipping their values. However, the system may spontaneously break this symmetry by adopting a state with a net magnetization.\\
+
+\textbf{Symmetric Hamiltonian} \\
+The Ising model, which describes the interactions between spins in the photonic Ising machine, has a symmetric Hamiltonian. This means that the system's energy is invariant under certain transformations, such as flipping all spins.\\
+
+\textbf{Target Image} \\
+This is the desired pattern or configuration that the machine aims to achieve. It's projected onto the photonic system. \\
+
+\textbf{Time-multiplexed optical parametric oscillators (TM-OPOs)} \\
+
+These generate multiple optical pulses that can represent the spins in an Ising model. They are a technique where multiple optical pulses are generated sequentially in time within a single optical parametric oscillator (OPO) cavity. Each of these pulses can be independently manipulated and represents a potential computational unit or "spin" in the context of Ising machines.TM-OPOs have been used to implement Ising machines, where the phase of each pulse represents the spin state. The interactions between the pulses can be engineered to mimic the interactions between spins in an Ising model.\\
+

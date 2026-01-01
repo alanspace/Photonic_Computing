@@ -1,0 +1,428 @@
+\section{Introduction}
+Complex systems, such as those found in biology and social science, are characterized by a vast number of possible internal states. This exponential growth in states with system size makes them extremely difficult to simulate or optimize using traditional computers. A key challenge in studying complex systems is their state space. This refers to the set of all possible configurations of the system. For even moderately sized systems, the state space grows exponentially, making it computationally intractable to explore all possibilities. This phenomenon is often referred to as the curse of dimensionality. Optimization problems arise when seeking the best possible solution from a vast number of alternatives. In the context of complex systems, these problems are often computationally demanding and belong to the class of NP-hard problems. This means there's no known efficient algorithm to find the optimal solution in polynomial time. \\
+
+Researchers are exploring various physical systems, including those based on quantum and classical physics, to implement Ising models. While optical systems offer the potential for a large number of "spins," controlling these spins and their interactions remains a significant challenge. \\
+
+The prospect of harnessing light for computational tasks has garnered significant attention due to the inherent advantages of optical systems: high speed and inherent parallelism. A particularly promising avenue within this domain is the development of photonic platforms designed to tackle complex computational problems.\\
+
+One such class of problems is challenging for traditional computers, which involves complex systems characterized by a vast number of interacting components. These systems, ubiquitous in fields from biology to social sciences, often defy efficient computational analysis due to the exponential growth of their potential states. A computational framework that has shown promise in addressing these complexities is the Ising model, a physical model centered around interacting spins. By mapping complex problems onto the Ising model, researchers have sought to leverage the tools of physics to find optimal solutions.\\
+
+In the realm of optics, various approaches have been explored to construct physical implementations of Ising machines. One method involves time-multiplexed optical parametric oscillators, where a series of optical pulses represent the spins in the Ising model. Another strategy entails the use of nanophotonic circuits, which integrate optical components on a chip to directly simulate spin interactions. Additionally, spatial light modulation has emerged as a potential technique for optical computing, although its application to Ising spin dynamics is still in its nascent stages.\\
+
+While these approaches offer intriguing possibilities, challenges persist in scaling up these systems to handle complex problems efficiently. Controlling a large number of optical elements to represent spins and engineering precise interactions between them remain significant hurdles. Moreover, accurately extracting the solution, or ground state, from the optical system presents another obstacle.\\
+
+Despite these challenges, the potential of photonic platforms for revolutionizing computation is undeniable. As research progresses, we can anticipate advancements that will bring these concepts closer to practical applications.\\
+
+\subsection{Spatial Light Modulator (SLM)}
+The Spatial Light Modulator (SLM) can be used to implement a photonic Ising machine, where binary spin values are encoded in the phase of a light wave, which is a process of phase encoding. The spin $\sigma_j$ at each spatial point of the wavefront corresponds to the phase $\phi_j$ in the electric field:
+
+\[
+\sigma_j = \begin{cases} 
++1 & \text{if } \phi_j = 0, \\
+-1 & \text{if } \phi_j = \pi
+\end{cases}
+, \quad j = 1,2,3,..., n.
+\]
+
+$\xi_j$ indicates the electric field amplitude incident on each pixel, which determines the strength of the electric contribution from the j-th spatial point. \\
+
+$\delta_W(x)$ is a normalized sinc function with width $2W$ centered at $x = 0$, describing the spread in the spatial domain due to the band-limited nature of the Fourier components. It is used to approximate a rectangular function due to its smooth properties in the Fourier domain. \\
+
+\begin{equation}
+\delta_w(x) = \frac{\sin{Wx}}{Wx}
+\end{equation}
+
+$\delta_W(x-x_j)$ represents the spatial distribution of the electric field contribution from the j-th spatial point, i.e., \underline{the spatial localization of the spins.} It is centered at $x_j$ and has a width determined by $2W$.
+
+The electric field in the Fourier space $\Tilde{E}(k)$ is expressed as a sum of contributions from each spatial frequency component k, modulated by the electric field amplitude $xi_j$ and phase $\phi_j$.
+
+\begin{equation}
+\tilde{E}(k) = \sum_j {\xi_j \sigma_j \Tilde{\delta_W}(k-k_j)}
+\end{equation}
+
+$\Tilde{\delta_W}(k-k_j)$ is the Fourier Transform of $\delta_w(x)$ in the frequency domain, representing a shifted rectangular function centered at $k_j$ with a width of $2W$. 
+
+To find the spatial domain of the electric field $E(x)$, we perform the inverse Fourier Transform $\Tilde{E(k)}$: 
+\begin{equation}
+    E(x) = \frac{1}{2\pi} \int \Tilde{E}(k) e^{ikx} dk
+\end{equation}
+
+Assuming that the sum and integral can be interchanged, substituting the expression and get
+\begin{equation}
+\begin{aligned}
+E(x) &= \frac{1}{2\pi} \int {\sum_j {\xi_j \sigma_j} \Tilde{\delta_W}(k-k_j) e^{ikx}}dk \\
+&= \sum_j {\xi_j \sigma_j} \frac{1}{2\pi} \int {\Tilde{\delta_W}(k-k_j) e^{ikx}} dk
+\end{aligned}
+\end{equation}
+
+where $\sum_j \xi_j \sigma_j e^{ik_jx}$ represents the superposition of waves with different spatial frequencies $k_j$, each modulated by the amplitude $\xi_j$ and spin valuable $\sigma_j$. \\
+
+The term $\frac{1}{2\pi} \int \Tilde{\delta_W}(k-k_j) e^{ikx}dk $ is the inverse Fourier Transform of $\Tilde{\delta_W}(k-k_j)$, which is a shifted sinc function and equal to
+
+\begin{equation}
+\frac{1}{2\pi} \int \Tilde{\delta_W}(k-k_j) e^{ikx}dk = \delta_W(x-x_j) e^{ik_jx}
+\end{equation}
+
+where $\delta_W(x)$ is the inverse Fourier Transform of $\Tilde{\delta_W}(k)$. The function $\delta_W(x-x_j)$ represents the spatial distribution of the electric field centered at $x_j$, with the spread determined by $\delta_W$. Therefore, the expression of $E(x)$ is 
+
+\begin{equation}
+E(x) = \sum_j {\xi_j \sigma_j} \delta_W (x-x_j) e^{2ik_jx} = \delta_W (x-x_j) \sum_j {\xi_j \sigma_j}  e^{2iWjx}
+\end{equation}
+
+where $e^{2ik_jx}$  is a phase factor that includes the spatial frequency $k_j$, which is related to the pixel position on the SLM. The relationship $k_j = 2Wj$ maps the discrete spatial domain (pixels) to the continuous frequency domain. The spacing between adjacent $2Wj$ determines the frequency resolution of the system. A larger $W$ results in a coarser frequency sampling. To avoid aliasing, the sampling frequency $W$ should be at least twice the maximum frequency component present in the signal.\footnote{Consider a one-dimensional array of pixels. Each pixel contributes to a specific range of spatial frequencies. The equation $k_j = 2Wj$ maps the pixel index to the central frequency of this range. This equation provides a simplified model for relating the discrete spatial domain (pixels) to the continuous frequency domain.} \\
+
+Therefore, $E(x)$ describes a spatial field distribution that is a product of a sinc function and a sum of modulated exponential terms, reflecting the wave-like nature of the phenomenon. The electric field is composed of multiple components, each centered at a different spatial point. In the Fourier domain, each pixel contributes to the overall frequency spectrum, aligning the discretized spatial frequency domain with the discrete pixelated spatial domain. \\
+
+In Fourier optics, the non-negative, real intensity $I(x)$ of a light wave at a point x is proportional to the square of the electric field amplitude $E(x)$ at that point in the spatial domain. The electric field itself is generally a complex quantity. Therefore, the far-field intensity after free-space propagation is
+
+\begin{equation}
+\begin{aligned}
+I(x) &= |E(x)|^2 \\
+     &= E^*(x) E(x) \\
+     &= \sum_{j} {\xi_j^* \sigma_j^* \delta_W^*(x-x_j) e^{-2iWjx}} \sum_{h} {\xi_h \sigma_h \delta_W(x-x_h) e^{2iWhx}} \\
+     &= \sum_{j} \sum_{h} {\xi_j \xi_h \sigma_j  \sigma_h \delta_W^*(x-x_j)} \delta_W(x-x_h) e^{2iW(h-j)x} \\
+     &= \sum_{jh} {\xi_j \xi_h \sigma_j  \sigma_h \delta_W^2(x) e^{2iW(h-j)x}}
+\end{aligned}
+\end{equation}
+
+Since $\delta_W$, $\xi_j$ and $\xi_h$ are real numbers, their complex conjugates equal themselves. The double sum represents the interaction between points $j$ and $h$ on the SLM, contributing to the overall intensity. $e^{2iW(h-j)x}$ accounts for the phase difference between these points related to spatial frequencies. Since the delta functions $\delta_W(x-x_j)$  and $\delta_W(x-x_j)$ are localized around $x_j$ and $x_h$ respectively, the product is zero unless $x_j = x_h$. Therefore, $\delta_W(x-x_j) \delta_W(x-x_h) = \delta_w^2$ is implemented when it is significant to consider the integration over the spatial overlap. It is the squared function of the spatial distribution, which approximates the effect of the spatial overlap of the delta functions.\\
+
+The intensity of the light at each pixel corresponds to the spin state. A higher (lower) intensity for the spin value of +1 (-1). Spin-spin interaction refer to how the spin at one point (i.e., the phase of the light wave at that point) affects that of another, which is induced by acting on the intensity $I(x)$ on the detection plane after free-space propagation. To adjust the phase $\sigma_j$ on the SLM, the observed intensity pattern $I(x)$ needs to match the target pattern $I_T(x)$. This is achieved by minimizing their difference, cost function $f = ||I_T(x) - I(x)||$, which corresponds to minimizing an effective Hamiltonian $H$.\footnote{In physics, minimizing a certain function is often equivalent to minimizing the energy of a system, described by a Hamiltonian $H$. In this case, the process of adjusting the phases to match the target intensity can be viewed as minimizing an effective Hamiltonian.} \\
+
+$I(x)$ is defined as the amount of light energy per unit area. When we integrate $I(x)$ over a spatial domain, we sum up the total intensity (or energy density) across the region. The integral can be thought of as related to the total energy of the intensity pattern, as a measure of the overall strength of the intensity pattern. 
+
+\begin{equation}
+\textbf{Energy}_{\textbf{total}} =  \int I(x) dx
+\end{equation}
+
+However, in the context of measurement, the energy is expressed as
+
+\begin{equation}
+\textbf{Energy} =  \int [I(x)]^2 dx
+\end{equation}
+
+which provides a measure of the uniformity and capture how well both patterns across the entire spatial domain. Squaring the intensity emphasizes regions of higher intensity more than those of lower intensity to ensure the differences in areas of higher intensity are given more weight in the comparison. The use of square in the normalization condition helps ensure the distribution and consistency of the pattern.\footnote{In statistical mechanics or signal processing, the square of a quantity is often related to variance or fluctuation. The reason for the squared values are often used when comparing distribution or when normalizing function to ensure both the magnitude and distribution match.}\\
+
+Since both the resulting intensity pattern $I(x)$ and the target intensity pattern $I_T(x)$ approximately equal, meaning that both their distribution and magnitude across the spatial domain, i.e., the integral for their squares over the spatial domain are very similar after normalization (both have been adjusted or scaled so that their power are comparable)
+
+\begin{equation}
+\int [I_T(x)]^2 dx \simeq  \int [I(x)]^2 dx
+\end{equation}
+
+In Ising model, the Hamiltonian $H$ represents the energy of a system of interacting spins $\sigma_j$ and $\sigma_h$. The minus sign indicates that the energy is minimized for a more stable system when spins are aligned in particular way. The coupling constant $J_{jh}$ expresses the geometry of the spin lattice, strength and the electromagnetic (ferromagnetic or anti-ferromagnetic) nature between spins at positions $j$ and $h$. Taking the effective forms of Ising Hamiltonian\footnote{Another form is the modified Ising Hamiltonian is $H = - \sum_{jh} J_{jh} \sigma_j \sigma_h - \sum_j h_j \sigma_j$, where $h_j$ is an external magnetic field acting on spin $j$. This term represents a uniform external magnetic field that acts on all spins with equal strength. It can be used to introduce a bias towards a particular spin orientation, affecting the equilibrium state of the system. The modified Hamiltonian allows for more flexibility in modeling for studying a wider range of phenomena and applications.}
+
+\begin{equation}
+H = - \sum_{jh} J_{jh} \sigma_j \sigma_h
+\end{equation}
+
+, which corresponds to the physical process of matching the observed and the target intensity pattern by adjusting the phase $\phi_j$ correlating to the spin $\sigma_j$ on the SLM. \\
+
+The spin interactions $J_{jh}$, i.e., the coupling strength between these spins can be influenced by SLM in how the phases at different points contribute to the overall far-field intensity. The integral accounts for the contribution to the interaction between point $j$ (with amplitude $\xi_j$ and phase $\phi_j$ relating to spin $\sigma_j$) and point $h$ (with amplitude $\xi_h$ and phase $\phi_h$ relating to spin $\sigma_h$) due to the overlap of their electric fields ($E(x)^*$ and $E(x)$) when propagated and modulated by the target intensity pattern. It is given by
+
+\begin{equation}
+ J_{jh} = 2 \xi_j \xi_h \int I_T(x) \delta_W^2(x) e^{2iW(h-j)x} dx
+\end{equation}
+
+\iffalse
+Substituting the expression of $I(x)$ and get
+
+\begin{equation}
+\begin{aligned}
+    J_{jh} &= 2 \xi_j \xi_h \int \left( \sum_{j'h'} {\xi_j' \xi_h' \sigma_j' \sigma_h' \delta_W^2(x)} e^{2iW(h'-j')x}\right) \delta_W^2(x) e^{2iW(h-j)x} dx \\
+    &= 2 \xi_j \xi_h \int \sum_{j'h'} {\xi_j' \xi_h' \sigma_j' \sigma_h' \delta_W^4(x)} e^{2iW(h'-j')x} e^{2iW(h-j)x} dx\\
+    &= 2 \xi_j \xi_h \sum_{j'h'} {\xi_j' \xi_h' \sigma_j' \sigma_h' \int \delta_W^2(x)} e^{2iW(h'-j'+ h-j)x} dx \\
+\end{aligned}
+\end{equation}
+
+When $\delta_w$ is narrow, $\delta_W^4(x) \approx \delta_W^2(x)$, simplifying the coupling term further to match the practical implementation and analysis. $e^{2iW(h'-j'+ h-j)x}$ represents the phase difference between the interaction pairs $(j,h)$ and $(j',h')$, that the interaction between points j and h are influenced bu other pairs $(j', h')$. \\
+
+When the width is large compared to the variation of the phase terms, the effect of the SLM pixel size can be neglected. 
+\begin{equation}
+\delta_w(x)  = \frac{\sin{Wx}}{Wx}  \approx 1
+\end{equation}
+
+\fi
+
+couplings reduce to 
+\begin{equation}
+ J_{jh} = 2 \pi  \xi_j \xi_h  \Tilde{I_T} [2W(j-h)]   
+\end{equation}
+which indicates that the interaction matrix is set by the input amplitude modulation along with the Fourier transform of the far-field target image. \\
+
+\subsection{Spin Configuration and Intensity Pattern}
+When the spin configuration is encoded into the light wave, it produces a particular intensity pattern on the detector by setting the phase of light wave. Consider a $4\times4$ grid of spins, the configuration is as follow:\\
+
+$\begin{aligned}
+\begin{bmatrix}
+0 & 0 & \pi & 0 \\
+\pi & 0 & 0 & \pi \\
+0 & \pi & \pi & 0 \\
+\pi & 0 & 0 & \pi
+\end{bmatrix}
+\end{aligned}
+\hspace{1cm}
+\rightarrow
+\hspace{1cm}
+\begin{bmatrix}
+1 & 1 & -1 & 1 \\
+-1 & 1 & 1 & -1 \\
+1 & -1 & -1 & 1 \\
+-1 & 1 & 1 & -1
+\end{bmatrix}$
+\\
+\\
+\\
+The phase-modulated light waves from different pixels interfere with each other, creating a specific intensity pattern of a checkerboard-like structure on the detector. Regions with similar phases would interfere constructively, leading to higher intensity, while regions with different phases would interfere destructively, leading to lower intensity. If the  specific intensity pattern on the detector matches the desired target intensity, then this spin configuration would be considered as the solution to the Ising problem.\\
+
+\subsection{Near-Field and Far-Field}
+The near-field is the region of space immediately adjacent to the SLM. In this region, the light intensity pattern is strongly influenced by the specific phase modulation introduced by the SLM. The near-field pattern can be quite complex and may exhibit rapid variations in intensity due to the localized nature of the phase modulation. \\
+
+The far-field is the region of space at a significant distance from the SLM. In this region, the light wave has had time to propagate and spread out. The far-field intensity distribution is essentially the Fourier transform of the near-field phase distribution. This means that the spatial frequencies present in the near-field pattern are mapped onto the spatial frequencies in the far-field. The far-field pattern is often simpler and more uniform than the near-field pattern, as the high-frequency components of the light wave tend to be attenuated over distance. The far-field constraint ensures that the generated intensity pattern matches the desired target intensity. This is equivalent to ensuring that the Fourier transform of the SLM phase distribution is consistent with the target. \\ 
+
+\subsection{Intensity to Long-Range Interaction}
+The interaction passes from short-range to long-range by changing the spatial profile of $I_T(x)$. When the spatial profile of $I_T(x)$ is localized to a bright concentrated spot, the interactions between spins are primarily confined to nearby neighbours, which is similar to nearest-neighbour interaction in lattice model. However, when its profile become more extended, the interaction between spins can reach farther distances, such that the spins can influence each other over larger separations. Therefore, spatial profile of $I_T(x)$ can be treated as a knob to control the range of interactions in the system for studying different types of spin models and exploring their properties, such as phase transitions. \\
+
+To achieve longer-range interactions, broader function like using larger values for the width parameter of the Gaussian distribution can be employed to introduce a degree of overlap between the spatial distribution between different spins, leading to interactions that extend beyond nearest neighbors. Besides, modifying the phase gradient across the system can influence the phase between the lights fields from different spins, extending the interactions over distances. Also, adjusting the complex amplitude of both spins can create interference patterns that favor interaction in the long-range distance. \\
+
+By adjusting the amplitude mask, the strength of the interaction between different pairs of spins can be altered to implement Mattis model, which are a class of spin-glass models with specific interaction patterns. 
+
+\begin{equation}
+\underline{\frac{J_{jh}}{jh}}
+\end{equation}
+
+The coupling is inversely proportional to the product of the spin indices. \\
+
+The Ising machine then iteratively conduct the following procedure:
+\begin{enumerate}
+\item A spin configuration is generated by modulating the wavefront with binary phases on the SLM. 
+\item The resulting intensity distribution $I(x)$ is measured in the far-field. 
+3. The detected image $I(x)$ is compared with the target $I_T(x)$.
+\item The difference between $I(x)$ and $I_T(x)$ is used as feedback to adjust the SLM phases.
+\item The evolves towards minimizing the cost function $f = |I(x) - I_T(x)|$, which corresponds to finding the ground state of the Ising model. 
+\end{enumerate}
+
+\iffalse
+Stochastic Gradient Descent Algorithm can be used in such large-scale optimization problem. The system evolves towards minimizing the cost function $f = |I(x) - I_T(x)|$, suggesting that an iterative process with a feedback loop where SLM phases are adjusted based on the difference between the target and detected image. 
+\fi
+
+\subsection{Holographic Nature}
+The holographic nature of the detected image in SLM is due to the interference patterns by phase modulation that arise from the interaction of multiple light waves, where the information about the original object (spin configuration) is encoded in the intensity distribution of the light field. The detected far-field image have holographic fringes due to the diffraction pattern from the Fourier transform of the near-field distribution as the light waves propagate over a long distance. \\
+
+\subsection{Resolution}
+Holoeye LC-R 720 is a specific model of SLM that uses liquid crystals to control the phase of the light wave. $1280 \times 768$ Pixels indicates the resolution or number of individual pixels on the SLM. $20 x 20 \mu$m is the size of each pixel on the SLM. $N = L \times L$ Spins suggests that the SLM is used to represent a 2D lattice of N spins, where L is the linear dimension of the lattice. CCD Camera is a detector that captures the intensity distribution of the light. The camera pixels are grouped into $16 \times 16$ blocks, resulting in $M = 18 \times 18$ spatial modes. This is likely done to reduce the impact of speckle noise. A single spatial mode can output a focused spot of light. The uniform amplitude associate with the spins are assumed to be constant. The experiment conduct random initialization of SLM phases to create a speckle pattern in the far-field. The laser's wavelength and the focusing optics determine the spatial resolution of the system, of which affects the minimum size of the pixels that can be effectively controlled on the SLM. \\
+
+\subsection{Pixel-to-Spin Mapping}
+Consider a grid of pixels on the SLM, each pixel can be thought of as a small window through which the light wave passes. By controlling the phase of the light wave within each window, the SLM effectively creates a pattern of phase variations across the wavefront. This pattern corresponds to the specific spin configuration being represented.
+
+\subsection{Monte-Carlo Algorithm}
+Afterwards, a Monte-Carlo method is implemented such that a small cluster of spin is randomly flipped instead of updating individual spins to improve the efficiency of the algorithm. After updating a cluster, the far-field intensity distribution is measured, then then change in spin configuration is accepted only if it reduces the difference between the measured intensity and the target image. This approach is similar to the Metropolis-Hastings algorithm. The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo (MCMC) Method used to generate samples from a probability distribution (which is often the Boltzmann distribution) that may be difficult to sample directly, which particularly useful when the normalization constant of the distribution is unknown. By generating these samples, the properties of the distribution can be estimated, such as the mean, variance, the probability of certain events.\\
+
+Steps for implementing the algorithm:\\
+\begin{enumerate}
+    \item Initializing the state
+    \item Proposing a new state based on a proposal distribution
+    \item randomly decide whether to accept or reject the proposed state based on the acceptance probability
+    \item If the proposed state is accepted, update the current state to the new one. Otherwise, keep the current state.
+    \item Repeat steps 2-5 for a specific number of iterations.
+\end{enumerate}
+    
+The experiment does not require explicit knowledge of the Hamiltonian that may directly influence the spin evolution. Whereas, the target image and the spin configuration act as an implicit representation of the Hamiltonian by minimizing the cost function $f = ||I_T(x) - I(x)||$ that effectively minimizing the energy associated with the Hamiltonian. Since the measurement and the feedback loop can couple the phase $\phi$ relating to the spin $\sigma$ on the SLM plane to the detected intensity, spin-spin interactions are induced by manipulating the intensity on the detection plane. This approach provides more flexibility to explore a wider range of problems and models. \\
+
+\subsection{Magnetization}
+The magnetization of the system can be used as a physical observable to track the evolution of the system, that a change in magnetization indicates a change in the overall spin configuration. Magnetization can be interpreted as a measure of the overall polarization or coherence of the light wave. Also, it can identify phase transition. When there is spontaneous magnetization in the system, a majority of spins are aligned in the same direction. The system exhibits a net magnetization ($m>>0$), which corresponds to ferromagnetic state below critical temperature $T_c$.  While the spins are randomly oriented above $T_c$, there is low or no net magnetization then the phase transition is in paramagnetic state. The system is discorded and exhibits no long-range order.\\
+
+If there is in the ferromagnetic domains, it indicates a large degree of order in the connected regions of aligned spins. The almost equal probability distribution of spins with $m<0$ and $m>0$ suggests a balanced system without a net magnetization, expected in the absence of external magnetic fields in the system. The sizes of the ferromangetic domains can be varied due to the imperfect uniformity of the system caused by fluctuation in the local interactions or external condition. The system can also experience opposite magnetization phase that all the spins are aligned in the opposite direction. \\
+
+In general, a high magnetization often corresponds to a low-energy state. This is because a well-ordered system with a large number of aligned spins tends to have a lower energy than a disordered system. The ground state of the Ising model is typically characterized by a high magnetization. Therefore, a high fidelity (i.e., a high probability of finding the ground state) often correlates with a high magnetization. \\
+
+By calculating the correlation length, the state can be determined. A long correlation length is associated with a ferromagentic state. \\
+
+\subsection{Spin Alignment}
+In the photonic Ising machine, the phase transition is related to the alignment of spins. At high temperatures (analogous to a disordered state), the spins are randomly oriented. As the temperature decreases (analogous to cooling), the spins may become aligned in a more ordered state (e.g., ferromagnetic). A sudden change in the correlation length as the temperature is varied can indicate a phase transition from a disordered state to an ordered state.\\
+
+\subsection{Random Phase Fluctuation (RPF)}
+RPF can be interpreted as a form of noise or thermal energy that affects the system's behavior. The level of noise can be related to the effective temperature of the system. Higher noise levels correspond to higher effective temperatures. By controlling the level of noise, one can effectively manipulate the system's behavior and the rate at which it converges to a low-energy state. However, these phase variants of light wave are uncontrollable arising from the noise in the system.\\
+
+RPF can be extracted by directly measured the fluctuations in the intensity of the light detected by the CCD camera, and then by calculating the standard deviation or variance of the intensity fluctuation over time. By using the interferometry techniques and analyzing the correlation between the phase fluctuation at different points in the system, this information can also be gained. Measuring the spin configuration multiple times with analysis on the variability between measurements and calculating the entropy of the spin configuration distribution to quantify the level of disorder or randomness can help obtaining the fluctuation. The level of noise can be inferred from the system's sensitivity to the external perturbation. 
+
+\subsection{Simulated Annealing}
+Simulated Annealing (SA) is a classical probabilistic optimization algorithm inspired by annealing process in metallurgy, which involves gradually reducing a temperature parameter, similar to cooling a material.\\
+
+Steps for implementing the algorithm:
+\begin{enumerate}
+    \item Initialization: Start with a high temperature and a random initial state.
+    \item Perturbation: Propose a new state by perturbing the current state.
+    \item Acceptance: If the new state has lower energy, accept it unconditionally.
+    \item If the new state has higher energy: Accept it with probability $e^{-\frac{\Delta E}{T}}$, where $\Delta E$ is the energy difference and $T$ is the temperature.
+    \item Cooling: Gradually reduce T according to a cooling schedule.
+    \item Repeat: Repeat steps 2-4 until a satisfactory solution is found or a maximum number of iterations is reached.
+\end{enumerate}
+
+Initially, SA explore a wide range of configuration at a higher temperature, and then it becomes more selective and focus on lower-energy state as the temperature decreases. SA gradually increase the clusters helps better opportunity to find deeper energy minima and avoid get trapped in shallow local minima. The dependence of the system's temperature is a core principle of SA to control the acceptance probability of moves, which is determined by random phase fluctuations. The gradual increase in magnetization $|m|$ (gradual alignment of the spin) and the monotonic decrease in Hamiltonian $H$ (moving toward a lower-energy state) are consistent with the behavior of SA to minimize the energy of the system and to settle the system in a more ordered state. \\
+
+\subsection{Max-Cut Problem}
+SA can be applied to solve Max-Cut problem for its effectiveness in handling Combinatorial Optimization (CO) problems with discrete variables and complex energy landscapes. Max Cut problem is a CO problem that involves partitioning a graph into two sets such that the number of edges connecting vertices in different sets is maximized. This is an NP-hard problem that it is computationally difficult to find the optimal solution for large instances. SA can explore the solution and avoid getting trapped in local minima by gradually cooling the system, which is a common practice in solving Max Cut problem.\\
+
+\subsection{QAOA}
+QAOA is a hybrid quantum-classical algorithm that leverages both classical and quantum computing resources, which can be applied to various CO problems. However, for large-scale Ising problems, the quantum resources required for QAOA might become prohibitive. Also, there may be hardware constraints that affects the availability and performance in choosing QAOA as the computing algorithm, the choice of its parameters as well.\\ 
+
+\subsection{Möbius ladder graph}
+Möbius ladder graphs are often used as examples or test cases in graph theory and algorithms. In particular, an unweighted (all edges in the graph have the same weight) Möbius ladder graph is a specific type of graph constructed from a cycle graph (each vertex is connected to its two neighbors) by adding a set of edges that connect opposite vertices of the cycle, forming a ladder-like structure with a twist (one of the edges connecting opposite vertices of the cycle is crossed over the other edges). It happens when all amplitudes are equal ($\xi_j = \xi_h = \xi_0$) i.e., each spin has the same overall intensity. It is non-planar, that it cannot be drawn on a plane without edge-crossing. It has a Hamiltonian cycle that visits every vertex exactly once. The rotational symmetry allows the graph can be rotated by certain angles without changing its structure.\\
+
+In the context of photonic Ising machine, the spins represent the vertices of the Möbius-Ladder graph, and the edges between vertices represent the couplings between spins that determine the strength and nature of the interactions between them. The graph structure refers to a particular graph topology where the spins are arranged in a circular pattern with additional connections between opposite vertices, forming a ladder-like structure with a twist. A fully-connected vertices structure means that every spin is connected to every other spin regardless of their distance in the graph. The spin configuration in the Möbius-Ladder graph corresponds to the target intensity $I_T(x)$ when the system reaches its equilibrium state. \\
+
+Since focus is on a single spatial mode exhibiting a bright localized spot, which shows that the graph is a circular pattern. Although the base of the graph is a cycle, while the spins can be both on the rim and within the interior of the circle. The circular pattern is projected onto the $16 \times 16$ CCD camera pixels, which represent different spatial modes for each corresponding to a specific pattern of light intensity throughout the distribution. The projection of the spin \\ 
+
+\subsection{Energy Probability Distribution Function (PDF)} 
+Evaluating PDF is to assess the distribution of energies among all possible spin configuration that satisfies the far-field constraint of producing the target intensity, which helps to determine how likely it is for the machine to find a low-energy solution.
+
+\subsection{Quantized Phase-Retrieval (QPR) Algorithm} 
+QPR is used to generate Binary Phase Distribution (BPD) corresponding to particular spin configuration from $I_T(x)$. It iteratively adjusts the phase distribution to minimize the difference between $I(x)$ and $I_T(x)$. 
+
+\subsection{Spontaneous Symmetry Breaking}
+Spontaneous symmetry breaking occurs when a system with a symmetric Hamiltonian (in this case, the Ising Hamiltonian) evolves into a state that lacks the original symmetry. In the absence of an external magnetic field, the Ising Hamiltonian is symmetric under the transformation of all spins flipping their values. However, the system may spontaneously break this symmetry by adopting a state with a net magnetization \\
+
+\subsection{Mean Field Approximation (MFA)}
+The mean-field solution is an approximate method that simplifies the interaction between spins for solving the Ising model. It assumes that each spin interacts with an average field created by all other spins. By comparing the observed spin configurations to the mean-field solution, the effective temperature of the system can be estimated. This is because the mean-field solution depends on the temperature. At the critical temperature (Tc), the mean-field approximation breaks down. This means that the equations used to describe the system become divergent or invalid.\\
+
+MFA is used to provide an initial guess for the system's configuration. Then, a Monte Carlo method, such as Metropolis-Hastings or Simulated Annealing (SA), is used to refine the solution and explore the configuration space more thoroughly. The mean-field approximation can help to accelerate the convergence of the Monte Carlo algorithm, especially for large systems. Also, it simplifies the calculation of the system's energy and other properties, making it computationally more efficient.\\
+
+\subsection{Experimental Setup}
+Nematic liquid Crystal Reflective Modulator (SLM) controls the phase of the light wave for representing the spins states in the Ising machine. Its resolution is $1280 \times 768$ pixels, which can control the phase of the light wave at $1280 \times 768$ points. The pixel pitch pitch of $20 \times 20 \mu$ m determines the spatial resolution of the SLM. Smaller pixel pitch allows for finer control of the light wave's phase. The active area is a rectangular aperture interacting with light that defines the region of the SLM and determines the total number of spins ($N = L \times L$) that can be represented. The low residual intensity phase modulation is crucial for accurately representing the spin states without introducing unwanted effects. The filtered Light by spatial filtering is being focused onto the CCD camera by focusing lens, which measures the intensity distribution of the light to infer the spin configuration. The grouping $16 \times 16$ blocks to form $18 \times 18$ spatial mode helps to average out noise and improve signal-to-noise ratio. 
+
+The higher the resolution of the SLM for smaller pixel pith, the higher quality of the overall optical setup, the higher resolution of the CCD camera by having higher pixel density, the finer control of the phase with more detailed spin configuration and the more accurate of the measurement.\\
+
+Using a lens with higher numerical aperture can focus the light beam more tightly, which reduces the diffraction effects and improve resolution. A cleaner and more focused light beam can be created by minimizing optical aberrations.\footnote{spherical aberration, chromatic aberation} Precise alignment can also minimize errors and improve resolution. 
+
+\subsection{Interpretation of the Result}
+The majority of the spins in the system are pointing in the same direction indicating a ferromagnetic-like state,  corresponds to a low-energy configuration that minimize the total energy due to their interactions. The monotonically decrease Hamiltonian displays the system is moving towards a lower-energy state, which is the desired outcome in optimizing problems. The plateau in the Hamiltonian shows that the system has reached a stable, ordered state where a further change in the spin configuration would require a significant increase in energy. \\
+
+The 100 Phase-retrieved spin configurations provide a set of potential solutions that satisfy the far-field constraints. By evaluating the energy of these solutions, we can obtain a distribution of energies. \\
+
+87\% probability of the correct minimum solution with 5 \% lowest energy refer to 87 out 100 trails of successfully identified the spin configuration that corresponds to the global minimum of the Hamiltonian, and be able to find the solutions that lie within the top 5\% of the lowest-energy configuration. It is independent of the way the ground state has been found, which means that even if a different algorithm or optimization technique were used to solve the Ising problem, the machine would still be expected to find the correct minimum solution with approximately 87\% probability. Therefore, it implies that the machine is efficiently robust and can consistently find reliable, accurate solutions to the Ising problem, regardless of the optimization approach used.\\
+
+In Figure 2(e), there are ferromagnetic domains and opposite magnetization phase being observed. The multiple images arrangement in grid may suggest the the evolution of spin configuration as the system progress. The white and blue regions represent spin configuration with values of +1 and -1 repressively.  The distribution of these regions reveals the ferromagnetic domains with different magnetization. The sub-figure on the left depicts the large size of white region with $m >0$ while that on the right depicts the large size of blue region with $m<0$. The small size of the ferromagnetic clusters indicate that multiple small regions where spin are aligned in the same direction, and are separated by regions with opposite magnetization. For the various sizes in the ferromagnetic domains, it is due to the imperfect uniformity caused by the fluctuation in the local interactions. The almost equal probability for the spin states with $m<0$ and $m>0$ suggests no preferential direction for the spins to align, constituting a balanced system. \\
+
+The images shows the formation or disappearance of ferromagnetic domains, indicating the phase transition in the system. The evolution of the domain structure provide information in the interaction between spins and the system's overall behavior. The presence of ferromagnetic domains with opposite magnetization is consistent with spontaneous symmetry breaking\footnote{The system, initially symmetric, has spontaneously chosen a particular configuration that breaks the symmetry.}.  
+\\
+
+Mean Magnetization represents the average spin value in the system. A positive m indicates a net alignment of spins in one direction, while a negative m indicates alignment in the opposite direction. The equation describe the relationship between the mean magnetization and the temperature for a system undergoing a phase transition. Below is a simplified version of the mean-field approximation for the Ising model. \\
+
+\begin{equation}
+m = tanh[\frac{T_c}{T}m]
+\end{equation}
+
+\subsection{Spin Spatial Auto-correlation}
+
+Spin Spatial Auto-correlation $g(r)$ is a function that measures the correlation between the spins at two points separated by a distance $r$. It provides information into the spatial structure of the spin system, such as the presence of domains and the range of interactions between spins. \\ 
+
+\begin{equation}
+g(r) = e^{-\frac{r}{\xi}}
+\end{equation}
+
+A high value of $g(r)$ indicates strong correlations between spins at a distance $r$ that the spins at those points are more likely to be aligned in the same direction, while a low value indicates weak correlations that the spin alignment would not be aligned to each other or even opposite to each other. Correlation length $\xi$ determines the rate at which the correlations decay with distance. A larger of its value indicates longer-range correlations that $g(r)$ decays slowly with distance. It is in the ferromagnetic state. \\
+
+The equation can be used to determine the critical temperature $T_c$, and $\xi$ provides an estimate of the average domain size in the system. Larger domains typically indicate a stronger degree of magnetic order. A large $\xi$ at $T_c$ indicates that the spins are strongly correlated over long distances. \\
+
+Spin Spatial Correlation can also be express as follow:
+
+\begin{equation}
+g(r) = <\sigma(x)\sigma(x+r)>
+\end{equation}
+
+$\sigma(x)$ is the spin value at position $x$. $<...>$ denotes the average over the entire system.
+
+To measure $g(r)$, the spin configuration form the measured intensity distribution has to be determined, and then the $\sigma(x+r)$ for each distance $r$ is calculated to obtain $\sigma(x+r)$ by repeating the process.
+
+Both are the common model to describe the decay of the spin-spin correlation in a system.
+
+$\xi$ can be determined by fitting the equation to the measured auto-correlation function, which involves adjusting the value of $\xi$ until the equation best matches the experimental data. \\
+
+(Short-range interactions is a simplified model in consideration, since long-range interactions can significantly affect the behavior of the system.) \\
+
+In the mean field approximation, $\xi$ is expressed as follow 
+\begin{equation}
+\xi = R_* (1 - \frac{T}{T_c})^{-\beta}, \quad \beta = \frac{1}{2}
+\end{equation}
+
+The equation describes how the correlation length $\xi$ varies with temperature. Critical exponential $\beta$ characterizes the rate at which $\xi$ diverges as the temperature approaches $T_c$. $\beta$ provides information about the universality class of the system and can be used to compare the system's behavior to other systems with similar critical exponents. $R_*$ is a minimum cluster length that sets a lower limit on the size of the clusters considered in the analysis. It helps to avoid considering fluctuations due to small-scale effects. It can influence the accuracy of the estimated critical temperature and the behavior of the system near the phase transition. \\
+
+The divergence of the correlation length at $T_c$ indicates the system undergoes a phase transition at this temperature. The spins become strongly correlated over long distances, leading to a change in the system's behavior. \\
+
+The fact that the observed ground states are consistent with a mean-field Ising model at a fixed temperature suggests that the mean-field approximation is a reasonable approximation for this system, even though it breaks down at the critical temperature. \\
+
+The observed critical temperature ($T_c = 0.83 \pm 0.02$) indicates the temperature at which the system undergoes a phase transition. A low $\frac{T}{T_c}$ ratio suggests that the system is well below its critical temperature and is likely in a highly ordered state, such as a ferromagnetic state. In this regime, the spins have strong correlations over long distances, leading to a well-defined magnetization and domain structure. The value of $\frac{T}{T_c}$ might have been obtained by fitting the experimental data to a theoretical model, such as the mean-field approximation or a more accurate model for the system.The uncertainty of $\pm 0.02$ indicates the precision of the measurement or the level of noise in the data. If $\frac{T}{T_c}$ were nearly $0$, it would imply that the system is operating very close to absolute zero, which is an extreme condition that is often difficult to achieve experimentally. However, the observed value of $T_c = 0.83 \pm 0.02$ indicates that the system is operating at a significantly higher temperature, but still well below the critical temperature. \\
+
+\subsection{Phase Coherence in Light}
+In the context of light, phase coherence means that the light waves maintain a consistent phase relationship. This leads to interference effects and can result in a highly ordered or structured pattern of light intensity.\\ 
+
+In the photonic Ising machine, the phase of the light wave is used to represent the spin state. Therefore, a system with strong spin correlations would also exhibit a high degree of phase coherence among the light waves representing those spins.\\
+
+Photonic Ising machine can simulate a very large number of spins. The number of simulated spins can be controlled by adjusting the size of the active area on the SLM. The magnetization and the fidelity can be varied by altering the number of spins. \\
+
+Figure 3(a) and Figure 3(b) demonstrates how $\overline{m}$ and fidelity of the system changes with the number of spins. It is found that the performance of the machine is insensitive to the number of spins, of which the interactions between spins are uniform. However, due to the limitations in the spatial resolution of the detection plane, there is a slight decrease in $\overline{m}$ and fidelity for large N system. 
+
+\footnote{A lower spatial resolution in the detection plane means that the camera cannot distinguish between individual spins that are too close together. This can lead to errors in the measurement of the spin configuration and affect the overall performance of the machine. Therefore, the limitations in spatial resolution might contribute to a slight decrease in magnetization and fidelity, especially for large systems where the spins are densely packed.} \\
+
+Owing to finite-size effects, the small size of the system significantly influence the magnetization of the system. 
+
+\footnote{When the system size is small, the effects of the boundary conditions can become more pronounced that $\xi$ grows linearly with the system size. This can lead to deviations from the behavior of a larger system. Smaller systems tend to have fewer degrees of freedom, which can limit the range of possible configurations and reduce the fluctuations in the system's properties.} \\
+
+However, as the system size increases, finite-size effects become less significant and the behavior becomes more consistent with the predictions of mean-field theory. In a larger system with more spins, the statistical fluctuations are typically smaller and a well-defined single decay pattern emerges in $g(r)$. This can lead to a more consistent and predictable behavior, including a higher average magnetization. This suggests that the domain structure is determined by intrinsic properties of the system, rather than being strongly influenced by the system size. A larger system can accommodate larger domains of aligned spins, which can contribute to a higher overall magnetization.Therefore, it suggests that the Ising photonic machine is highly scalable.\\
+
+
+\subsection{Mattis Spin Glass}
+Mattis spin-glasses are a specific type of spin glass model which can be implemented in the photonic Ising machine. Besides, amplitude modulation and phase modulation in SLM, the coupling between spins is determined by generating random coupling $J_{jh}$ with both strong and weak interactions in terms of a set of random variables $\xi_j$ and $\xi_h$ representing the electric field amplitude of light waves. \\
+
+According to the theoretical solution of the Mattis model, the ground state (lowest-energy configuration) of the system is closely related to the distribution of $\xi_i$. The expected ground state is either the same as the $\xi_i$ configuration or its reversal, except for the weakly interacting regions where the spins are randomly oriented.\\
+
+In Figure 4(a), the two top panels likely represent different configurations of the coupling matrix $J_{jh}$. The black and white squares might indicate strong and weak interactions, respectively. The bottom panel shows the corresponding spin configuration, with blue and white squares representing spins with different orientations. The black and white squares in the top panels likely represent different values of $\xi_j$. Black squares might correspond to strong interactions ($\xi_j = \xi_0$), while white squares might represent weak interactions ($\xi_j = 0$). The spin configuration in the bottom panel is influenced by these coupling strengths. In regions with strong interactions ($\xi_j = \xi_0$), the spins are more likely to be aligned in the same direction (ferromagnetic-like), while in regions with weak interactions ($\xi_j = 0$), the spins might be randomly oriented.\\
+
+\underline{The terms "strongly" and "weakly" might be used in a relative sense.} 
+
+\underline{While all interactions are technically "all-to-all,"}
+
+\underline{some interactions might be significantly stronger or weaker than others compared to a reference value.}
+
+\subsection{Spin-$\xi$ Correlation}
+C measures the correlation between the spin configuration $\sigma_j$ and the random variable $\xi_j$ that determine the coupling strength. 
+
+
+\begin{equation}
+C = \sum_j {\sigma_j \frac{\xi_j}{\xi_0}}, C = \pm 1
+\end{equation}
+
+$\xi_j$ is a normalization factor to ensure the dimensionless quantity of C. A high value of C indicates a strong correlation between the spin configuration and the expected ground state based on the $\xi_j$ values, while a low value of C suggests that the measured spin configuration deviates from the expected ground state.
+
+\subsection{Question}
+Scalability\\
+What are the limitations on the number of spins that can be simulated using this approach? How does the performance scale with the system size? The paper discusses the dependence of the machine's performance on the number of spins, which can provide insights into its scalability.\\
+
+Noise and Error\\
+How do noise and errors in the system affect the accuracy of the results? What techniques can be used to mitigate these effects? The paper might have analyzed the effects of noise and errors in the system, and discussed potential mitigation strategies.\\
+
+Comparison with Other Platforms\\
+How does this photonic Ising machine compare to other implementations, such as superconducting qubit-based or trapped-ion-based systems? The paper might have compared the performance of the photonic Ising machine to other implementations, or discussed the unique advantages and disadvantages of the photonic approach.\\
+
+Applications\\
+What are the potential applications of this photonic Ising machine beyond the examples discussed in the paper? The paper might have explored potential applications of the machine, such as solving optimization problems or simulating quantum systems.\\
+
+Mattis Model\\
+How does the performance of the machine vary for different types of spin-glass models, such as non-Mattis models?\\
+
+Hamiltonian Optimization\\
+Can the machine be used to solve other types of optimization problems beyond the Ising model?\\
+
+Quantum Advantage\\
+Is there a potential for this photonic Ising machine to demonstrate a quantum advantage over classical computers for certain problem instances?\\
+
+Experimental Challenges\\
+What are the main experimental challenges in implementing and operating this photonic Ising machine? How can these challenges be addressed?\\
+
+\subsection{Conclusion}
+It demonstrates the potential of photonic platforms for implementing large-scale Ising machines, which are crucial for solving complex optimization problems.  Photonic systems can potentially be scaled to a much larger number of qubits (or spins, in this case) compared to other quantum computing technologies. The use of spatial light modulation to represent and manipulate spin states is a novel approach that offers unique advantages, such as flexibility and scalability in terms of interactions and Hamiltonian that can be implemented.  The paper highlights the potential of photonic platforms for quantum computing, as Ising machines are closely related to quantum annealing and other quantum optimization algorithms. The paper provides a benchmark for the performance of photonic Ising machines  on various Ising problems, including their ability to solve challenging problems and their limitation. It highlights the capabilities of classical systems and identify areas where quantum algorithms might offer a significant advantage. Photonic Ising machines can be used as a component in hybrid quantum-classical systems, where classical computers can be used to preprocess or post-process the data, while quantum algorithms handle the computationally challenging parts. The results presented in the paper could have implications for various applications, such as materials science, machine learning, and optimization problems in engineering and finance.\\
+
+However, photonic systems can be susceptible to noise and errors, which can degrade the performance of the Ising machine. Developing techniques to mitigate these effects is crucial. Implementing complex Hamiltonians or large-scale systems can be challenging in photonic platforms. Advances in optical components and control techniques are needed to address these challenges. Demonstrating a clear quantum advantage over classical computers for solving Ising problems using photonic platforms remains an active area of research.\\
+
+\newpage
+

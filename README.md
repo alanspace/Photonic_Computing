@@ -28,67 +28,59 @@ cd Photonic_Computing
 pip install -e .
 ```
 
-## 💻 Usage
+## 🗺️ How to Use This Repository
 
-### Running the Example Simulation
-We provide a standard example script to demonstrate the simulation of a 10x10 spin system and its resulting interference pattern.
+This repository contains both a **stable, optimized simulation library** and **exploratory research notebooks**. Here is a guide on how to navigate and use them.
+
+### 1. The Quick Start (Run the optimized code)
+If you want to see the simulation in action immediately:
+
+1.  **Install the package**: `pip install -e .`
+2.  **Run the demo**: `python examples/basic_simulation.py`
+3.  **Check the output**: The script will generate a file named `simulation_result.png` in your current directory. This image displays the spin configuration (Phase Mask) alongside its corresponding far-field interference pattern (Fourier Intensity).
+
+**What to expect:**
+- **Output File**: A PNG image comparing the target spin configuration with the simulated optical intensity pattern. This proves the physics engine is correctly simulating interference.
+
+### 2. The Interactive Web App (Real-Time Demo)
+For a premium, interactive experience where you can watch the optimization process live:
 
 ```bash
-python examples/basic_simulation.py
+streamlit run app.py
 ```
 
-### Library Usage
-You can use the `photonic_ising` package in your own research scripts:
+This launches a local web dashboard where you can:
+- **Visualize** the spin phase mask and Fourier intensity in real-time.
+- **Control** simulation parameters (Grid Size, Temperature, Iterations).
+- **Run** the Metropolis-Hastings solver to see the energy minimize dynamically.
 
-```python
-from photonic_ising.ising_machine import IsingMachine
-import matplotlib.pyplot as plt
+### 3. The Notebooks (Understand the Physics)
+Located in `notebooks/`, these files contain the original research, derivations, and unoptimized prototype code. Use these if you want to understand the *why* and *how*.
 
-# Initialize system with standard parameters (lambda=532nm, f=500mm, pixel=20um)
-machine = IsingMachine(size=10)
+- **`IsingMachine.ipynb`**: The **primary reference**. Contains detailed text explanations, mathematical derivations of the Fourier optics model, and step-by-step code blocks. **Read this first** to understand the theory.
+- **`IsingMachine_Simplified.ipynb`**: A cleaner version of the above, focusing on the core algorithms without as much verbose exposition.
+- **`SimplifiedNoteBook.ipynb`**: A bare-bones sandbox for quick experiments.
 
-# Generate a random target spin configuration
-machine.generate_target()
+*Note: The code in notebooks is for educational/exploratory purposes and is O(N²M) (slower) compared to the O(NM) library implementation.*
 
-# Compute the far-field intensity pattern (interference)
-# This calculates the Fourier transform of the modulated wavefront
-I_target, _ = machine.compute_intensities(num_points=100)
+### 4. The Library (Build your own experiments)
+The `src/photonic_ising` directory contains the professional-grade, optimized Python package. Use this for:
+- Building new simulations (e.g., larger spin counts).
+- Integrating the Ising Machine logic into other pipelines.
+- Running benchmarks.
 
-# Visualize
-plt.imshow(I_target, cmap='viridis')
-plt.title("Far-Field Intensity")
-plt.show()
-```
-
-## 📊 Simulation Results
-
-The simulation generates high-fidelity interference patterns that closely map to the ground truth physics of the optical system. Below is an example output showing the phase mask (spin configuration) and the corresponding far-field intensity pattern.
-
-![Simulation Result](docs/simulation_result.png)
-
-### Significance & Accuracy
-- **Fourier Correspondence**: The intensity pattern strictly follows the Fourier transform of the aperture-modulated phase mask. A random spin configuration produces a speckle-like pattern (as seen above), which acts as the "energy landscape" for the Ising machine.
-- **Physical Validity**: The use of a Sinc envelope correctly models the finite pixel fill factor of real SLMs. The vector-optimized calculation (O(NM)) ensures that we can simulate large-scale systems (e.g., thousands of spins) that are intractable with naive summation methods, achieving "PhD-level" performance and accuracy suitable for academic research.
-- **Optimization Landscape**: By analyzing these intensity patterns, researchers can investigate how well the photonic system minimizes the Ising Hamiltonian, specifically checking if the intensity peaks align with the target solution states.
-
-## 📚 Theory
-
-The electric field $E(x)$ at the detector plane is related to the spin configuration $\sigma$ at the SLM plane by a Fourier transform relationship. The simulation models each pixel as a rectangular aperture, resulting in a Sinc envelope in the Fourier domain modulated by a phase factor dependent on the pixel position.
-
-$$ E(\mathbf{k}) \propto \sum_{j} \sigma_j \cdot \text{sinc}(W(k_x - k_{jx})) \cdot \text{sinc}(W(k_y - k_{jy})) \cdot e^{i \phi_j(\mathbf{k})} $$
-
-The intensity is then $I(\mathbf{x}) = | \mathcal{F}^{-1}\{ E(\mathbf{k}) \} |^2$.
+**Key Modules:**
+- `photonic_ising.core`: The vectorized physics engine (Fourier transforms, Sinc envelopes).
+- `photonic_ising.ising_machine`: The class managing state (spins, Hamiltonian).
+- `photonic_ising.visualization`: Tools for generating publication-quality plots.
 
 ## 📂 Repository Structure
 
-- `src/photonic_ising/`: Main package source code.
-  - `core.py`: Mathematical physics engine.
-  - `ising_machine.py`: High-level simulation controller.
-  - `visualization.py`: Plotting utilities.
-- `notebooks/`: Original research notebooks (archived).
-- `docs/references/`: Academic papers and reference materials.
-- `examples/`: Example scripts.
-- `tests/`: Unit tests ensuring physical correctness.
+- `examples/`: Ready-to-run scripts using the optimized library.
+  - `basic_simulation.py`: Main entry point for a standard 10x10 simulation.
+- `src/photonic_ising/`: The source code for the optimized package.
+- `notebooks/`: Research and prototyping environment (Jupyter Notebooks).
+- `tests/`: Unit tests to ensure physical accuracy.
 
 ## 🧪 Testing
 

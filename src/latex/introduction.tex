@@ -1,0 +1,11 @@
+The exponential growth of computational complexity in Combinatorial Optimization (CO) problems poses a fundamental barrier to advancements in operations research, drug discovery, and artificial intelligence. Many of these problems belong to the NP-hard complexity class, where the time required to find an optimal solution scales exponentially with the problem size on von Neumann architectures. Consequently, the anticipated saturation of Moore's Law has catalyzed a paradigm shift towards domain-specific hardware accelerators, including quantum annealers, CMOS-based Ising chips, and optical computing platforms.
+
+Among these candidates, the Ising model serves as a pivotal mathematical framework. Originally developed in statistical mechanics to describe ferromagnetism, the Ising Hamiltonian can encode a vast array of CO problems—including the Traveling Salesman Problem (TSP) and Max-Cut—such that finding the ground state (lowest energy configuration) of the spin system is equivalent to solving the optimization problem \cite{lucas2014ising}.
+
+$$ H = -\sum_{i,j} J_{ij} \sigma_i \sigma_j - \sum_{i} h_i \sigma_i $$
+
+where $\sigma_i \in \{+1, -1\}$ represents the spin state, $J_{ij}$ is the coupling matrix, and $h_i$ is the external bias. Computing the ground state of this Hamiltonian is generally NP-hard \cite{mohseni2022ising}.
+
+Photonic computing emerges as a compelling substrate for physical implementation of the Ising model due to its inherent massive parallelism, high bandwidth, and low energy consumption \cite{shastri2021photonics}. Unlike electronic interconnects, which suffer from resistance and capacitance delays, photons can interact via interference in free space without energy dissipation, enabling dense, all-to-all connectivity \cite{mcmahon2016fully}.
+
+In this work, we focus on the Spatial Photonic Ising Machine (SPIM), an architecture that utilizes a Spatial Light Modulator (SLM) to encode spins into the phase of a coherent wavefront \cite{pierangeli2019large}. By exploiting the Fourier transform properties of lenses, we can compute the interaction term of the Ising Hamiltonian globally and instantaneously. We present a high-fidelity simulation and theoretical analysis of this system, demonstrating its capability to solve large-scale optimization problems and discussing its trajectory toward industrial deployment.

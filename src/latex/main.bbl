@@ -1,0 +1,33 @@
+\begin{thebibliography}{1}
+
+\bibitem{lucas2014ising}
+Andrew Lucas.
+\newblock Ising formulations of many np problems.
+\newblock {\em Frontiers in physics}, 2:5, 2014.
+
+\bibitem{mohseni2022ising}
+Naeimeh Mohseni, Peter~L McMahon, and Tim Byrnes.
+\newblock Ising machines as hardware solvers of combinatorial optimization
+  problems.
+\newblock {\em Nature Reviews Physics}, 4(6):363--379, 2022.
+
+\bibitem{shastri2021photonics}
+Bhavin~J Shastri, Alexander~N Tait, Thomas Ferreira~de Lima, Wolfram~HP
+  Pernice, Harish Bhaskaran, C~David Wright, and Paul~R Prucnal.
+\newblock Photonics for artificial intelligence and neuromorphic computing.
+\newblock {\em Nature Photonics}, 15(2):102--114, 2021.
+
+\bibitem{mcmahon2016fully}
+Peter~L McMahon, Alireza Marandi, Yoshitaka Haribara, Ryan Hamerly, Carsten
+  Langrock, Shuhei Tamate, Takahiro Inagaki, Hiroki Takesue, Shoko Utsunomiya,
+  Kazuyuki Aihara, et~al.
+\newblock A fully programmable 100-spin coherent ising machine with all-to-all
+  connections.
+\newblock {\em Science}, 354(6312):614--617, 2016.
+
+\bibitem{pierangeli2019large}
+Davide Pierangeli, Giulia Marcucci, and Claudio Conti.
+\newblock Large-scale photonic ising machine by spatial light modulation.
+\newblock {\em Physical Review Letters}, 122(21):213902, 2019.
+
+\end{thebibliography}
