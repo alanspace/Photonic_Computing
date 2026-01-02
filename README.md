@@ -96,25 +96,28 @@ Located in `notebooks/`:
 
 ---
 
-## 📂 Repository Structure
+## 🗺️ Navigation & Structure
 
-```
-Photonic_Computing/
-│
-├── app.py                          # Streamlit web interface
-├── examples/
-│   └── basic_simulation.py         # Quick demo script
-│
-├── src/photonic_ising/
-│   ├── core.py                     # Optimized Fourier optics engine
-│   ├── ising_machine.py            # Ising machine class
-│   ├── optimization.py             # Monte Carlo algorithms
-│   └── utils.py                    # Visualization helpers
-│
-├── notebooks/                      # Research & prototypes
-├── tests/                          # Unit tests
-└── src/latex/                      # LaTeX paper source
-```
+The repository is organized to separate the core physics engine from the web interface and research artifacts.
+
+### **Core Application**
+| File/Folder | Description |
+|-------------|-------------|
+| **`app.py`** | 🟢 **Start Here!** The interactive Streamlit web dashboard. |
+| **`src/photonic_ising/`** | The core physics engine and simulation logic. |
+| &nbsp;&nbsp;├─ `core.py` | Vectorized Fourier optics & diffraction implementation. |
+| &nbsp;&nbsp;├─ `optimization.py` | Adaptive Monte Carlo & Simulated Tempering algorithms. |
+| &nbsp;&nbsp;└─ `ising_machine.py` | Main class managing SLM state and Hamiltonian. |
+
+### **Research & Documentation**
+| File/Folder | Description |
+|-------------|-------------|
+| **`docs/`** | Documentation and guides (including `PAPER_WRITING_GUIDE.md`). |
+| **`notebooks/`** | Jupyter notebooks for deep dives and theory derivations. |
+| **`src/latex/`** | Source code for the research paper. |
+| **`results/`** | 📂 Output folder for generated simulation reports and analyses. |
+| **`scripts/`** | Helper scripts for batch jobs or utilities. |
+| **`assets/`** | Static images and figures used in the README. |
 
 ---
 
