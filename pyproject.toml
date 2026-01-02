@@ -26,3 +26,4 @@ dependencies = [
 
 [project.urls]
 "Homepage" = "https://github.com/alanspace/Photonic_Computing"
+"Demo" = "https://mnyzuwuq7o4nntgordpnwi.streamlit.app/"

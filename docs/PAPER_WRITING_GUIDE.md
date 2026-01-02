@@ -186,23 +186,11 @@ Before submission:
 
 ---
 
-## 🚀 Bonus: Deploy Web App
+## 🚀 Bonus: Deploy Web App (Complete!)
+The app is now live at: **[https://mnyzuwuq7o4nntgordpnwi.streamlit.app/](https://mnyzuwuq7o4nntgordpnwi.streamlit.app/)**
 
-Once paper is submitted, deploy the demo:
-
-```bash
-# Create requirements.txt
-pip freeze > requirements.txt
-
-# Deploy to Streamlit Cloud
-# 1. Push to GitHub
-# 2. Go to share.streamlit.io
-# 3. Connect repo
-# 4. Launch!
-```
-
-Then add to paper's "Code Availability" section:
-> *"Live demo: https://your-app.streamlit.app"*
+You can add this to your paper's "Code Availability" section:
+> *"Live demo available at: https://mnyzuwuq7o4nntgordpnwi.streamlit.app/"*
 
 ---
 

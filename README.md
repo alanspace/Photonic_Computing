@@ -4,6 +4,8 @@
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://mnyzuwuq7o4nntgordpnwi.streamlit.app/)
+
 A high-performance Python simulation framework for **Photonic Ising Machines** with **AI-powered analysis** and **adaptive Monte Carlo algorithms**. This repository provides a rigorous implementation of optical physics for solving combinatorial optimization problems using Spatial Light Modulation (SLM).
 
 ![Simulated Tempering Demo](./assets/spin_comparison_20260102_005400.png)
@@ -47,6 +49,11 @@ pip install -e .
 ```bash
 streamlit run app.py
 ```
+
+### 🌐 Live Demo
+No installation required! Access the **Live Cloud Deployment** here:
+**[👉 Launch Photonic Ising Machine](https://mnyzuwuq7o4nntgordpnwi.streamlit.app/)**
+
 
 This launches a **premium web dashboard** where you can:
 - ✅ Watch optimization in real-time (live spin maps + intensity patterns)
