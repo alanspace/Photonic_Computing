@@ -7,3 +7,22 @@ dist/
 build/
 .DS_Store
 profiler_logs/
+venv/
+.env
+
+# Generated reports and analysis artifacts
+simulation_report_*.md
+*_202?*.png
+*_202?*.csv
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.pdf
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bak
+*.bak2
