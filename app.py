@@ -2,7 +2,7 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-import google.generativeai as genai
+
 import io
 import datetime
 from PIL import Image
